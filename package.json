@@ -1,0 +1,30 @@
+{
+  "name": "chances-screeps",
+  "version": "0.0.1",
+  "description": "Chance Snow's Screeps AI libarary.",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/chances/screeps"
+  },
+  "keywords": [
+    "js",
+    "ts",
+    "typescript",
+    "screeps"
+  ],
+  "author": "Chance Snow <git@chancesnow.me>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/chances/screeps/issues"
+  },
+  "homepage": "https://screeps.com/a/#!/profile/chances",
+  "dependencies": {
+    "del": "^1.1.0",
+    "gulp": "^3.8.10",
+    "gulp-concat": "^2.4.2",
+    "gulp-sourcemaps": "^1.2.8",
+    "gulp-typescript": "^2.3.0",
+    "gulp-screeps": "^1.0.1"
+  }
+}
