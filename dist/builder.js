@@ -1,7 +1,7 @@
-module.exports = function (creep) {
+function doWork(spawn, creep) {
     if (creep.carry.energy == 0) {
-        if (Game.spawns.Spawn1.transferEnergy(creep) == ERR_NOT_IN_RANGE) {
-            creep.moveTo(Game.spawns.Spawn1);
+        if (spawn.transferEnergy(creep) == ERR_NOT_IN_RANGE) {
+            creep.moveTo(spawn);
         }
     }
     else {
@@ -12,4 +12,5 @@ module.exports = function (creep) {
             }
         }
     }
-};
+}
+module.exports = doWork;

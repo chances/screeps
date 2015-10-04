@@ -10,8 +10,8 @@
         "outDir": "dist/"
     },
     "filesGlob": [
-        "./ts/declarations/**/*.ts",
+        "./ts/declarations/**/*.d.ts",
 
-        "./ts/main.ts"
+        "./ts/**/*.ts"
     ]
 }

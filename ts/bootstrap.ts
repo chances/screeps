@@ -12,7 +12,7 @@ function CreepManager() {
     this.medics = [];
 
     for (var room in Game.rooms) {
-        if (Game.rooms[spawn] !== undefined) {
+        if (Game.rooms.hasOwnProperty(room)) {
             this.room = Game.rooms[room];
             break;
         }
@@ -21,7 +21,7 @@ function CreepManager() {
     var medicManager = new MedicManager(this.room);
 
     for (var spawn in Game.spawns) {
-        if (Game.spawns[spawn] !== undefined) {
+        if (Game.spawns.hasOwnProperty(spawn)) {
             this.spawn = Game.spawns[spawn];
             break;
         }
@@ -30,35 +30,37 @@ function CreepManager() {
     this.tick = function creepManagerTick() {
         // Create up to 5 harvesters
         if (this.harvesters.length < 5) {
-            console.log("harvester" + this.harvesters.length + 1);
-            var creep = this.spawn.createCreep(
+            console.log("harvester" + (this.harvesters.length + 1));
+            var result = this.spawn.createCreep(
                 [Game.WORK, Game.CARRY, Game.MOVE],
-                "harvester" + this.harvesters.length + 1,
+                "harvester" + (this.harvesters.length + 1),
                 {role: 'harvester'}
             );
 
-            if (typeof creep === 'object') {
-                this.harvesters.push(creep);
+            if (typeof result === 'object') {
+                this.harvesters.push(result);
             }
         }
 
         for(var name in Game.creeps) {
-            var creep = Game.creeps[name];
+            if (Game.creeps.hasOwnProperty(name)) {
+                var creep = Game.creeps[name];
 
-            if (creep.memory.role == 'harvester') {
-                harvester(creep);
-            }
+                if (creep.memory.role == 'harvester') {
+                    harvester(this.spawn, creep);
+                }
 
-            if (creep.memory.role == 'builder') {
-                builder(creep);
-            }
+                if (creep.memory.role == 'builder') {
+                    builder(this.spawn, creep);
+                }
 
-            if(creep.memory.role == 'guard') {
-                guard(creep);
-            }
+                if (creep.memory.role == 'guard') {
+                    guard(creep);
+                }
 
-            if(creep.memory.role == 'medic') {
-                medicManager.doWork(creep);
+                if (creep.memory.role == 'medic') {
+                    medicManager.doWork(<Medic>creep);
+                }
             }
         }
     }
