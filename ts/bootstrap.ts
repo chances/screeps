@@ -65,11 +65,11 @@ class CreepManager {
             } else {
                 if ((this.guards.length + this.medics.length) / this.harvesters.length < 0.8) {
                     if (this.guards.length < 1) {
-                        this.createCreep([TOUGH, MOVE, RANGED_ATTACK, MOVE, ATTACK], 'guard', this.guards);
+                        this.createCreep([TOUGH, MOVE, RANGED_ATTACK], 'guard', this.guards);
                     } else if (this.medics.length / this.guards.length < 0.5) {
-                        this.createCreep([TOUGH, HEAL, MOVE], 'medic', this.medics);
+                        this.createCreep([HEAL, MOVE], 'medic', this.medics);
                     } else {
-                        this.createCreep([TOUGH, MOVE, RANGED_ATTACK, MOVE, ATTACK], 'guard', this.guards);
+                        this.createCreep([TOUGH, MOVE, RANGED_ATTACK], 'guard', this.guards);
                     }
                 } else {
                     if (this.builders.length < 3) {
