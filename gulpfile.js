@@ -22,7 +22,7 @@ var tsProject = ts.createProject({
 });
 
 gulp.task('clean', function (callback) {
-    del(['js/**/*.js', '!js/lib/*.js'], function (error) {
+    del(['dist/**/*.js'], function (error) {
         if (error) {
             return callback(error);
         }
@@ -37,7 +37,6 @@ gulp.task('screeps', function () {
 
 gulp.task('typescript', function () {
     var tsResult = gulp.src(source)
-        .pipe(sourcemaps.init())
         .pipe(ts(tsProject, undefined, ts.reporter.longReporter(true)));
 
     tsResult.js
