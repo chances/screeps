@@ -45,7 +45,7 @@ class CreepManager {
                 );
 
                 if (_.isString(result)) {
-                    this.harvesters.push(Game.creeps["harvester" + (this.harvesters.length + 1)]);
+                    this.harvesters.push(Game.creeps[result]);
                 } else {
                     console.log("Cannot create creep: " + result);
                 }
