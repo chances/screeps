@@ -650,6 +650,7 @@ declare enum Direction {
 	* need 8,11,13
 	*/
 
+declare var OK: number;
 declare var FIND_MY_CREEPS: number;
 declare var FIND_HOSTILE_CREEPS: number;
 declare var FIND_CONSTRUCTION_SITES: number;

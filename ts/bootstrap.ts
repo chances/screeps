@@ -6,7 +6,7 @@ import MedicManager = require('medic');
 class CreepManager {
     room: Room = null;
     spawn: Spawn = null;
-    spawnBusy: boolean = false;
+    canCreateCreep: boolean = false;
     harvesters: Creep[] = [];
     builders: Creep[] = [];
     guards: Creep[] = [];
@@ -33,7 +33,9 @@ class CreepManager {
     }
 
     tick() {
-        if (this.spawn.spawning === null) {
+        this.canCreateCreep = this.spawn.canCreateCreep([WORK, CARRY, MOVE]) === OK;
+
+        if (this.spawn.spawning === null && this.canCreateCreep) {
             // Create up to 5 harvesters
             if (this.harvesters.length < 5) {
                 var result = this.spawn.createCreep(
