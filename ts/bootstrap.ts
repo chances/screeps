@@ -6,6 +6,7 @@ import MedicManager = require('medic');
 class CreepManager {
     room: Room = null;
     spawn: Spawn = null;
+    spawnBusy: boolean = false;
     harvesters: Creep[] = [];
     builders: Creep[] = [];
     guards: Creep[] = [];
@@ -32,19 +33,20 @@ class CreepManager {
     }
 
     tick() {
-        // Create up to 5 harvesters
-        if (this.harvesters.length < 5) {
-            console.log("harvester" + (this.harvesters.length + 1));
-            var result = this.spawn.createCreep(
-                [WORK, CARRY, MOVE],
-                "harvester" + (this.harvesters.length + 1),
-                {role: 'harvester'}
-            );
+        if (this.spawn.spawning === null) {
+            // Create up to 5 harvesters
+            if (this.harvesters.length < 5) {
+                var result = this.spawn.createCreep(
+                    [WORK, CARRY, MOVE],
+                    "harvester" + (this.harvesters.length + 1),
+                    {role: 'harvester'}
+                );
 
-            if (_.isString(result) && Game.creeps.hasOwnProperty("harvester" + (this.harvesters.length + 1))) {
-                this.harvesters.push(Game.creeps["harvester" + (this.harvesters.length + 1)]);
-            } else {
-
+                if (_.isString(result)) {
+                    this.harvesters.push(Game.creeps["harvester" + (this.harvesters.length + 1)]);
+                } else {
+                    console.log("Cannot create creep: " + result);
+                }
             }
         }
 

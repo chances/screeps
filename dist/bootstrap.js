@@ -6,6 +6,7 @@ var CreepManager = (function () {
     function CreepManager() {
         this.room = null;
         this.spawn = null;
+        this.spawnBusy = false;
         this.harvesters = [];
         this.builders = [];
         this.guards = [];
@@ -26,14 +27,16 @@ var CreepManager = (function () {
         }
     }
     CreepManager.prototype.tick = function () {
-        // Create up to 5 harvesters
-        if (this.harvesters.length < 5) {
-            console.log("harvester" + (this.harvesters.length + 1));
-            var result = this.spawn.createCreep([WORK, CARRY, MOVE], "harvester" + (this.harvesters.length + 1), { role: 'harvester' });
-            if (_.isString(result) && Game.creeps.hasOwnProperty("harvester" + (this.harvesters.length + 1))) {
-                this.harvesters.push(Game.creeps["harvester" + (this.harvesters.length + 1)]);
-            }
-            else {
+        if (this.spawn.spawning === null) {
+            // Create up to 5 harvesters
+            if (this.harvesters.length < 5) {
+                var result = this.spawn.createCreep([WORK, CARRY, MOVE], "harvester" + (this.harvesters.length + 1), { role: 'harvester' });
+                if (_.isString(result) && Game.creeps.hasOwnProperty("harvester" + (this.harvesters.length + 1))) {
+                    this.harvesters.push(Game.creeps["harvester" + (this.harvesters.length + 1)]);
+                }
+                else {
+                    console.log("Cannot create creep: " + result);
+                }
             }
         }
         for (var name in Game.creeps) {
