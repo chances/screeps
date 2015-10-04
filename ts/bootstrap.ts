@@ -3,42 +3,48 @@ import builder = require('builder');
 import guard = require('guard');
 import MedicManager = require('medic');
 
-function CreepManager() {
-    this.room = null;
-    this.spawn = null;
-    this.harvesters = [];
-    this.builders = [];
-    this.guards = [];
-    this.medics = [];
+class CreepManager {
+    room: Room = null;
+    spawn: Spawn = null;
+    harvesters: Creep[] = [];
+    builders: Creep[] = [];
+    guards: Creep[] = [];
+    medics: Medic[] = [];
 
-    for (var room in Game.rooms) {
-        if (Game.rooms.hasOwnProperty(room)) {
-            this.room = Game.rooms[room];
-            break;
+    medicManager: MedicManager = null;
+
+    constructor () {
+        for (var room in Game.rooms) {
+            if (Game.rooms.hasOwnProperty(room)) {
+                this.room = Game.rooms[room];
+                break;
+            }
+        }
+
+        this.medicManager = new MedicManager(this.room);
+
+        for (var spawn in Game.spawns) {
+            if (Game.spawns.hasOwnProperty(spawn)) {
+                this.spawn = Game.spawns[spawn];
+                break;
+            }
         }
     }
 
-    var medicManager = new MedicManager(this.room);
-
-    for (var spawn in Game.spawns) {
-        if (Game.spawns.hasOwnProperty(spawn)) {
-            this.spawn = Game.spawns[spawn];
-            break;
-        }
-    }
-
-    this.tick = function creepManagerTick() {
+    tick() {
         // Create up to 5 harvesters
         if (this.harvesters.length < 5) {
             console.log("harvester" + (this.harvesters.length + 1));
             var result = this.spawn.createCreep(
-                [Game.WORK, Game.CARRY, Game.MOVE],
+                [WORK, CARRY, MOVE],
                 "harvester" + (this.harvesters.length + 1),
                 {role: 'harvester'}
             );
 
-            if (typeof result === 'object') {
-                this.harvesters.push(result);
+            if (_.isString(result) && Game.creeps.hasOwnProperty("harvester" + (this.harvesters.length + 1))) {
+                this.harvesters.push(Game.creeps["harvester" + (this.harvesters.length + 1)]);
+            } else {
+
             }
         }
 
@@ -59,7 +65,7 @@ function CreepManager() {
                 }
 
                 if (creep.memory.role == 'medic') {
-                    medicManager.doWork(<Medic>creep);
+                    this.medicManager.doWork(<Medic>creep);
                 }
             }
         }

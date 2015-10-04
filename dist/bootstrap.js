@@ -2,33 +2,38 @@ var harvester = require('harvester');
 var builder = require('builder');
 var guard = require('guard');
 var MedicManager = require('medic');
-function CreepManager() {
-    this.room = null;
-    this.spawn = null;
-    this.harvesters = [];
-    this.builders = [];
-    this.guards = [];
-    this.medics = [];
-    for (var room in Game.rooms) {
-        if (Game.rooms.hasOwnProperty(room)) {
-            this.room = Game.rooms[room];
-            break;
+var CreepManager = (function () {
+    function CreepManager() {
+        this.room = null;
+        this.spawn = null;
+        this.harvesters = [];
+        this.builders = [];
+        this.guards = [];
+        this.medics = [];
+        this.medicManager = null;
+        for (var room in Game.rooms) {
+            if (Game.rooms.hasOwnProperty(room)) {
+                this.room = Game.rooms[room];
+                break;
+            }
+        }
+        this.medicManager = new MedicManager(this.room);
+        for (var spawn in Game.spawns) {
+            if (Game.spawns.hasOwnProperty(spawn)) {
+                this.spawn = Game.spawns[spawn];
+                break;
+            }
         }
     }
-    var medicManager = new MedicManager(this.room);
-    for (var spawn in Game.spawns) {
-        if (Game.spawns.hasOwnProperty(spawn)) {
-            this.spawn = Game.spawns[spawn];
-            break;
-        }
-    }
-    this.tick = function creepManagerTick() {
+    CreepManager.prototype.tick = function () {
         // Create up to 5 harvesters
         if (this.harvesters.length < 5) {
             console.log("harvester" + (this.harvesters.length + 1));
-            var result = this.spawn.createCreep([Game.WORK, Game.CARRY, Game.MOVE], "harvester" + (this.harvesters.length + 1), { role: 'harvester' });
-            if (typeof result === 'object') {
-                this.harvesters.push(result);
+            var result = this.spawn.createCreep([WORK, CARRY, MOVE], "harvester" + (this.harvesters.length + 1), { role: 'harvester' });
+            if (_.isString(result) && Game.creeps.hasOwnProperty("harvester" + (this.harvesters.length + 1))) {
+                this.harvesters.push(Game.creeps["harvester" + (this.harvesters.length + 1)]);
+            }
+            else {
             }
         }
         for (var name in Game.creeps) {
@@ -44,10 +49,11 @@ function CreepManager() {
                     guard(creep);
                 }
                 if (creep.memory.role == 'medic') {
-                    medicManager.doWork(creep);
+                    this.medicManager.doWork(creep);
                 }
             }
         }
     };
-}
+    return CreepManager;
+})();
 module.exports = CreepManager;
