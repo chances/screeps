@@ -286,10 +286,6 @@ interface Game {
 		* @param groupInterval If set to 0 (default), the notification will be scheduled immediately. Otherwise, it will be grouped with other notifications and mailed out later using the specified time in minutes.
 		*/
 	notify(message: string, groupInterval: number): void;
-
-    WORK: number;
-    CARRY: number;
-    MOVE: number;
 }
 /**
 	* A global object representing world GameMap. Use it to navigate between rooms. The object is accessible via Game.GameMap property.
@@ -659,6 +655,10 @@ declare var FIND_HOSTILE_CREEPS: number;
 declare var FIND_CONSTRUCTION_SITES: number;
 declare var FIND_SOURCES: number;
 declare var ERR_NOT_IN_RANGE: number;
+
+declare var WORK: string;
+declare var CARRY: string;
+declare var MOVE: string;
 
 declare var Game: Game;
 declare var Memory: Memory;
