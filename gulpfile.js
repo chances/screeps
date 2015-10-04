@@ -30,7 +30,7 @@ gulp.task('clean', function (callback) {
     });
 });
 
-gulp.task('screeps', function () {
+gulp.task('screeps', ['typescript'], function () {
     gulp.src('dist/*.js')
         .pipe(screeps(credentials));
 });
