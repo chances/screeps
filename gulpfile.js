@@ -5,6 +5,9 @@ var sourcemaps = require('gulp-sourcemaps');
 var ts = require('gulp-typescript');
 var concat = require('gulp-concat');
 
+var screeps = require('gulp-screeps');
+var credentials = require('./config/screeps.json');
+
 var tsConfig = require('./tsconfig.json');
 
 var source = tsConfig.filesGlob;
@@ -27,14 +30,17 @@ gulp.task('clean', function (callback) {
     });
 });
 
+gulp.task('screeps', function () {
+    gulp.src('dist/*.js')
+        .pipe(screeps(credentials));
+});
+
 gulp.task('typescript', function () {
     var tsResult = gulp.src(source)
         .pipe(sourcemaps.init())
         .pipe(ts(tsProject, undefined, ts.reporter.longReporter(true)));
 
     tsResult.js
-        .pipe(concat('dfa.ts.js'))
-        .pipe(sourcemaps.write())
         .pipe(gulp.dest(tsConfig.compilerOptions.outDir));
 });
 
