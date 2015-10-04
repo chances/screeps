@@ -654,6 +654,7 @@ declare var OK: number;
 declare var FIND_MY_CREEPS: number;
 declare var FIND_HOSTILE_CREEPS: number;
 declare var FIND_CONSTRUCTION_SITES: number;
+declare var FIND_MY_STRUCTURES: number;
 declare var FIND_SOURCES: number;
 declare var ERR_NOT_IN_RANGE: number;
 declare var ERR_NOT_ENOUGH_ENERGY: number;
@@ -662,6 +663,7 @@ declare var WORK: string;
 declare var CARRY: string;
 declare var MOVE: string;
 declare var TOUGH: string;
+declare var RANGED_ATTACK: string;
 declare var ATTACK: string;
 declare var HEAL: string;
 

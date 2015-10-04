@@ -11,6 +11,13 @@ function doWork(spawn, creep) {
                 creep.moveTo(targets[0]);
             }
         }
+        else {
+            if (creep.room.controller) {
+                if (creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(creep.room.controller);
+                }
+            }
+        }
     }
 }
 module.exports = doWork;
