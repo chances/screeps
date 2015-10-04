@@ -39,9 +39,7 @@ class CreepManager {
             // Create up to 5 harvesters
             if (this.harvesters.length < 5) {
                 var result = this.spawn.createCreep(
-                    [WORK, CARRY, MOVE],
-                    "harvester" + (this.harvesters.length + 1),
-                    {role: 'harvester'}
+                    [WORK, CARRY, MOVE], null, {role: 'harvester'}
                 );
 
                 if (_.isString(result)) {
