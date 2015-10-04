@@ -28,15 +28,43 @@ var CreepManager = (function () {
     }
     CreepManager.prototype.tick = function () {
         this.canCreateCreep = this.spawn.canCreateCreep([WORK, CARRY, MOVE]) === OK;
+        // Gather creeps
+        for (var name in Game.creeps) {
+            if (Game.creeps.hasOwnProperty(name)) {
+                var creep = Game.creeps[name];
+                if (creep.memory.role == 'harvester') {
+                    this.harvesters.push(creep);
+                }
+                if (creep.memory.role == 'builder') {
+                    this.builders.push(creep);
+                }
+                if (creep.memory.role == 'guard') {
+                    this.guards.push(creep);
+                }
+                if (creep.memory.role == 'medic') {
+                    this.medics.push(creep);
+                }
+            }
+        }
         if (this.spawn.spawning === null && this.canCreateCreep) {
-            // Create up to 5 harvesters
+            // Create creeps
             if (this.harvesters.length < 5) {
-                var result = this.spawn.createCreep([WORK, CARRY, MOVE], null, { role: 'harvester' });
-                if (_.isString(result)) {
-                    this.harvesters.push(Game.creeps[result]);
+                this.createCreep([WORK, CARRY, MOVE], 'harvester', this.harvesters);
+            }
+            else {
+                if ((this.guards.length + this.medics.length) / this.harvesters.length < 0.8) {
+                    if (this.guards.length < 1) {
+                        this.createCreep([TOUGH, MOVE, ATTACK, MOVE, ATTACK], 'guard', this.guards);
+                    }
+                    else if (this.medics.length / this.guards.length < 0.5) {
+                        this.createCreep([TOUGH, HEAL, MOVE], 'medic', this.medics);
+                    }
+                    else {
+                        this.createCreep([TOUGH, MOVE, ATTACK, MOVE, ATTACK], 'guard', this.guards);
+                    }
                 }
                 else {
-                    console.log("Cannot create creep: " + result);
+                    this.createCreep([WORK, CARRY, MOVE], 'harvester', this.harvesters);
                 }
             }
         }
@@ -56,6 +84,15 @@ var CreepManager = (function () {
                     this.medicManager.doWork(creep);
                 }
             }
+        }
+    };
+    CreepManager.prototype.createCreep = function (parts, role, collection) {
+        var result = this.spawn.createCreep(parts, null, { role: role });
+        if (_.isString(result)) {
+            collection.push(Game.creeps[result]);
+        }
+        else {
+            console.log("Cannot create creep: " + result);
         }
     };
     return CreepManager;

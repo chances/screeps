@@ -661,6 +661,9 @@ declare var ERR_NOT_ENOUGH_ENERGY: number;
 declare var WORK: string;
 declare var CARRY: string;
 declare var MOVE: string;
+declare var TOUGH: string;
+declare var ATTACK: string;
+declare var HEAL: string;
 
 declare var Game: Game;
 declare var Memory: Memory;
